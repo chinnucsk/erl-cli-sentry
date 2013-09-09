@@ -3,7 +3,7 @@
 -export([
 		start/0,
 		stop/0,
-		post/3
+		post/2
 		]).
 
 %% @doc start application.

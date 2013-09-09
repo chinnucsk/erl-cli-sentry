@@ -79,7 +79,8 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% @doc build the requests and parse the results.
 post_message(Message, Opts, #state{protocol=Protocol, public_key=PublicKey, secret_key=SecretKey, host=Host, project_id=ProjectId, server_name=ServerName, vsn=Vsn}) ->
-	Url = erl_sentry_util:build_url(Protocol, Host, ProjectId),
-	Header = erl_sentry_util:build_header(PublicKey, SecretKey, Vsn),
-	Body = erl_sentry_util:build_body(Message, ServerName, Opts),
-	erl_sentry_util:req(post, Url, Header, Body).	
+	{ok, Url} = ?lift(?unlift(erl_sentry_util:build_url(Protocol, Host, ProjectId))),
+	{ok, Header} = ?lift(?unlift(erl_sentry_util:build_header(PublicKey, SecretKey, Vsn))),
+	{ok, Body} = ?lift(?unlift(erl_sentry_util:build_body(Message, ServerName, Opts))),
+	?handle(erl_sentry_util:req(post, Url, Header, Body)).
+		

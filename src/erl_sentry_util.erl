@@ -132,9 +132,7 @@ handle_content([], Acc) ->
 handle_content([{Atom, Value}|Rest], Acc) ->
 	handle_content(Rest, [{Atom, to_b(Value)}|Acc]).
 
--spec lift(fun()) -> maybe(_, _).
 %% @doc Ensure that the result of F, which must be a thunk, is in
-%% maybe().
 lift(F) ->
     try F() of
         ok                  -> ok;
